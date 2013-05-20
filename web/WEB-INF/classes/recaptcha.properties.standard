@@ -1,0 +1,4 @@
+# you can get an API key here: http://www.google.com/recaptcha
+#
+recaptcha.public=XXXXXX
+recaptcha.private=XXXXX

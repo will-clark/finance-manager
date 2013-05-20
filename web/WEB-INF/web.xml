@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="finance" version="2.5">
+  <display-name>finance</display-name>
+  
+  <listener>
+    <listener-class>org.willclark.finance.Bootstrap</listener-class>
+  </listener>
+  
+  <filter>
+    <filter-name>Authentication</filter-name>
+    <filter-class>org.willclark.finance.Authentication</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Authentication</filter-name>
+    <url-pattern>/accounts/*</url-pattern>
+    <url-pattern>/transactions/*</url-pattern>
+  </filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <trim-directive-whitespaces>true</trim-directive-whitespaces>
+    </jsp-property-group>
+  </jsp-config>
+
+  <error-page>
+  	<error-code>401</error-code>
+  	<location>/WEB-INF/views/errors/401.jsp</location>
+  </error-page>
+  	
+  <error-page>
+  	<error-code>403</error-code>
+  	<location>/WEB-INF/views/errors/403.jsp</location>
+  </error-page>
+
+  <error-page>
+	<error-code>404</error-code>
+	<location>/WEB-INF/views/errors/404.jsp</location>
+  </error-page>
+
+  <error-page>
+	<error-code>500</error-code>
+	<location>/WEB-INF/views/errors/500.jsp</location>
+  </error-page>
+	
+</web-app>

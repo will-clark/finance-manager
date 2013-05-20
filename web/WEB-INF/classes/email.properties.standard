@@ -1,0 +1,7 @@
+host=smtp.gmail.com
+port=465
+secure=true
+debug=false
+username=
+password=
+from=

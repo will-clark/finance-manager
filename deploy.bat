@@ -1,0 +1,1 @@
+heroku deploy:war --war build/finance.war --app sheltered-dawn-9298

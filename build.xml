@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="Finance Manager" default="build" basedir=".">
+    <!-- Init -->
+    <tstamp prefix="BUILD"/>
+    
+    <!-- Properties -->    
+    <property name="DIST"            value="build"/>
+    	
+    <property name="BUILD.BRANCH"    value="DEV"/>
+    <property name="BUILD.STAMP"     value="${BUILD.DSTAMP}_${BUILD.TSTAMP}"/>
+    <property name="BUILD.TAG"       value="${BUILD.BRANCH}-${BUILD.STAMP}"/>
+    
+    <!-- Paths -->
+    <path id="project.classpath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>    
+        <fileset dir="web/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+       
+    <!-- Build targets -->
+    <target name="build" description="Build project">
+        <antcall target="clean"/>
+        <antcall target="compile"/>
+        <antcall target="package"/>
+    </target>
+    
+    <!-- Worker targets -->
+    <target name="clean" description="Clean project">
+        <delete dir="${DIST}"/>
+        <mkdir dir="${DIST}"/>
+    </target>
+    
+    <target name="compile" description="Compile project">
+        <mkdir dir="${DIST}/classes"/>
+        <javac destdir="${DIST}/classes" debug="true" source="1.6" target="1.6">
+            <src path="src"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+    
+    <target name="package" description="Build Package">
+        <antcall target="copy-properties"/>
+        <antcall target="compress-jar"/>
+        <antcall target="compress-war"/>
+    </target>
+    
+    <target name="copy-properties" description="Copy and filter META-INF directory">
+        <copy todir="${DIST}/classes" filtering="true">
+            <fileset dir="src" includes="*.xml *.properties META-INF/**"/>           
+            <filterset>
+                <filter token="BRANCH"  value="${BUILD.BRANCH}"/>
+                <filter token="BUILD"   value="${BUILD.STAMP}"/>
+                <filter token="TAG"     value="${BUILD.TAG}"/>
+            </filterset>
+        </copy>
+    </target>
+    
+    <target name="compress-jar" description="Package source components into JAR">
+        <jar jarfile="${DIST}/finance.jar" basedir="${DIST}/classes" />
+    </target>
+        
+    <target name="compress-war" description="Package web components into WAR">
+        <war destfile="${DIST}/finance.war" webxml="web/WEB-INF/web.xml">
+            <fileset dir="web" excludes="WEB-INF/web.xml"/>
+            <lib dir="${DIST}" includes="*.jar"/>
+        </war>
+    </target>
+    
+</project>
